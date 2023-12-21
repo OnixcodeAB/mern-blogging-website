@@ -5,7 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 const Navbar = () => {
-  const [searchBoxVisibility, setSearchBoxVisibility] = useState(false);
+  const [searchBoxVisibility, setSearchBoxVisibility] =
+    useState<Boolean>(false);
 
   return (
     <nav className="navbar">
@@ -14,7 +15,7 @@ const Navbar = () => {
       </Link>
       <div
         className={
-          "absolute bg-white w-full left-0 top-full mt-0.5 border-b border-grey py-4 px-[5vw] md:border-0 md:block md:relative md:inset-0 md:p-0 md:w-auto " +
+          "absolute bg-white w-full left-0 top-full mt-0.5 border-b border-grey py-4 px-[5vw] md:border-0 md:block md:relative md:inset-0 md:p-0 md:w-auto md:show " +
           (searchBoxVisibility ? "show" : "hide")
         }
       >
@@ -33,6 +34,16 @@ const Navbar = () => {
         >
           <i className="fi fi-rr-search text-xl"></i>
         </button>
+        <Link href={"/editor"} className="hidden md:flex gap-2 link">
+          <i className="fi fi-rr-file-edit" />
+          <p>Write</p>
+        </Link>
+        <Link href={"/signin"} className="btn-dark py-2">
+          Sign in
+        </Link>
+        <Link href={"/signup"} className="btn-light py-2 hidden md:block">
+          Sign up
+        </Link>
       </div>
     </nav>
   );
