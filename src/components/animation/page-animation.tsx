@@ -1,4 +1,4 @@
-import React, { ReactComponentElement, ReactElement, ReactNode } from "react";
+import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 interface AnimationWrapperProps {
@@ -17,14 +17,16 @@ const AnimationWrapper = ({
   className,
 }: AnimationWrapperProps) => {
   return (
-    <motion.div
-      initial={initial}
-      animate={animate}
-      transition={transition}
-      className={className}
-    >
-      {children}
-    </motion.div>
+    <AnimatePresence>
+      <motion.div
+        initial={initial}
+        animate={animate}
+        transition={transition}
+        className={className}
+      >
+        {children}
+      </motion.div>
+    </AnimatePresence>
   );
 };
 

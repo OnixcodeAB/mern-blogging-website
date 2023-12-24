@@ -34,9 +34,9 @@ const Navbar = () => {
         >
           <i className="fi fi-rr-search text-xl"></i>
         </button>
-        <Link href={"/editor"} className="hidden md:flex gap-2 link">
-          <i className="fi fi-rr-file-edit" />
-          <p>Write</p>
+        <Link href={"/editor"} className="hidden md:flex gap-2 btn-light text-xl py-2">
+          <i className="fi fi-rr-file-edit text-xl" />
+          Write
         </Link>
         <Link href={"/signin"} className="btn-dark py-2">
           Sign in
