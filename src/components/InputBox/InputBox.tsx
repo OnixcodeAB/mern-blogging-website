@@ -3,7 +3,7 @@ import React, { useState } from "react";
 
 interface InputBoxProps {
   type?: string;
-  name?: string;
+  Name?: object;
   id?: string;
   value?: string;
   placeholder?: string;
@@ -11,7 +11,7 @@ interface InputBoxProps {
 }
 
 const InputBox = ({
-  name,
+  Name,
   type,
   id,
   value,
@@ -26,7 +26,7 @@ const InputBox = ({
   return (
     <div className="relative w-[100%] mb-4">
       <input
-        name={name}
+        {...Name}
         type={viewPass ? "text" : type}
         id={id}
         defaultValue={value}

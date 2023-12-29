@@ -1,42 +1,132 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import InputBox from "@/components/InputBox/InputBox";
 import Image from "next/image";
 import Link from "next/link";
 import googleIcon from "@/image/google.png";
 import AnimationWrapper from "@/components/animation/page-animation";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { SubmitHandler, useForm } from "react-hook-form";
+
+type SignupProps = {
+  fullname: string;
+  email: string;
+  password: string;
+};
 
 const signup = () => {
+  const [message, setMessage] = useState<null | string>(null);
+
+  const router = useRouter();
+  const session = useSession();
+
+  if (session.status === "authenticated") {
+    router?.push("/editor");
+  }
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<SignupProps>({
+    defaultValues: {
+      fullname: "",
+      email: "",
+      password: "",
+    },
+  });
+
+  const formSubmit: SubmitHandler<SignupProps> = async (form) => {
+    const { fullname, email, password } = form;
+    //console.log({ fullname, email, password });
+    try {
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          fullname,
+          email,
+          password,
+        }),
+      });
+      res.status == 201 &&
+        router.push("/signin?success=Account has been created");
+    } catch (error: any) {
+      setMessage(error);
+    }
+  };
+
   return (
     <AnimationWrapper>
       <section className="h-cover flex items-center justify-center">
-        <form action="" className="w-[80%] max-w-[400px]">
+        <form
+          onSubmit={handleSubmit(formSubmit)}
+          className="w-[80%] max-w-[400px]"
+        >
           <h1 className="text-4xl font-gelasio capitalize text-center mb-24">
             Welcome Back
           </h1>
 
           <InputBox
-            name="Fullname"
+            Name={{
+              ...register("fullname", {
+                required: "First Name is required",
+              }),
+            }}
             type="text"
             placeholder="Full Name"
             icon="fi-rr-user"
           />
 
+          {errors.fullname?.message && (
+            <small className="block text-xl my-4 text-red font-semibold">
+              {errors.fullname.message}
+            </small>
+          )}
+
           <InputBox
-            name="email"
+            Name={{
+              ...register("email", {
+                required: "Email is required",
+              }),
+            }}
             type="text"
             placeholder="Email"
             icon="fi-rr-envelope"
           />
 
+          {errors.email?.message && (
+            <small className="block text-xl my-4 text-red font-semibold">
+              {errors.email.message}
+            </small>
+          )}
+
           <InputBox
-            name="password"
+            Name={{
+              ...register("password", {
+                required: "Password is required",
+                minLength: 6,
+              }),
+            }}
             type="password"
             placeholder="Password"
             icon="fi-rr-key"
           />
 
-          <button type="submit" className="w-[80%] btn-dark center mt-14 mb-5">
+          {errors.password?.message && (
+            <small className="block text-xl my-4 text-red font-semibold">
+              {errors.password.message}
+            </small>
+          )}
+
+          <button
+            type="submit"
+            /* disabled={isSubmitting} */
+            className="w-[80%] btn-dark center mt-14 mb-5"
+          >
             Sign Up
           </button>
 
@@ -53,6 +143,10 @@ const signup = () => {
             <Image src={googleIcon} alt="Google Icon" className="w-5" />
             Continue with Google
           </button>
+
+          {message && (
+            <small className="block my-4 text-red text-xl">{message}</small>
+          )}
 
           {/* <hr className="w-1/2 border-black" /> */}
 

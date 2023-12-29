@@ -39,12 +39,14 @@ export const authOptions: NextAuthOptions = {
         // login
 
         try {
-          const user = await users.findOne({ email: credentials.email });
-
+          const user = await users.findOne({
+            "personal_info.email": credentials.email,
+          });
+          //console.log(user.personal_info);
           if (user) {
             const isMatch = await bcrypt.compare(
               credentials.password,
-              user.password
+              user.personal_info.password
             );
             if (isMatch) {
               return user;
@@ -62,7 +64,7 @@ export const authOptions: NextAuthOptions = {
   ],
   pages: {
     signIn: "/signin",
-    signOut:"/",
+    signOut: "/",
     newUser: "/editor",
     error: "/signin",
   },
