@@ -4,7 +4,7 @@ import bcryptjs from "bcryptjs";
 import { NextRequest, NextResponse } from "next/server";
 import { nanoid } from "nanoid";
 
-export const POST = async (request: NextRequest) => {
+export const POST = async (request: NextRequest, res: NextResponse) => {
   const { fullname, email, password } = await request.json();
   await dbConnect();
 
@@ -19,10 +19,10 @@ export const POST = async (request: NextRequest) => {
 
     isUsernameNotUnique ? (username += nanoid()) : "";
 
-    console.log({
+    /* console.log({
       Username: username,
       isUsernameNotUnique: isUsernameNotUnique,
-    });
+    }); */
 
     return username;
   };
@@ -41,9 +41,10 @@ export const POST = async (request: NextRequest) => {
     await newUser.save();
     return new NextResponse("User Has been created", { status: 201 });
   } catch (err: any) {
-    console.log(err);
-    return new NextResponse(err.message, {
-      status: 500,
-    });
+    //console.log(err);
+    return NextResponse.json(
+      { error: `${err.message}` },
+      { status: 500, statusText: `${err.code}` }
+    );
   }
 };

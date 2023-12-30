@@ -55,11 +55,14 @@ const signup = () => {
       });
       res.status == 201 &&
         router.push("/signin?success=Account has been created");
+      if (res.status == 500) {
+        setMessage(res.statusText);
+      }
     } catch (error: any) {
       setMessage(error);
     }
   };
-
+  console.log(message);
   return (
     <AnimationWrapper>
       <section className="h-cover flex items-center justify-center">
@@ -145,8 +148,10 @@ const signup = () => {
             Continue with Google
           </button>
 
-          {message && (
-            <small className="block my-4 text-red text-xl">{message}</small>
+          {message == String(11000) && (
+            <small className="block my-4 text-red text-xl text-center font-semibold">
+              Error: This Email already exist
+            </small>
           )}
 
           {/* <hr className="w-1/2 border-black" /> */}
