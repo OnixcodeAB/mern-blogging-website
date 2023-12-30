@@ -21,10 +21,14 @@ const Signin = () => {
   const router = useRouter();
   const session = useSession();
 
+  /* if (session.status === "authenticated") {
+    router?.push("/editor");
+  } */
+
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitted, isSubmitting },
   } = useForm<SigninProps>({
     defaultValues: {
       email: "",
@@ -36,15 +40,12 @@ const Signin = () => {
     setError(params.get("error"));
   }, [params]);
 
-  if (session.status === "authenticated") {
-    router?.push("/editor");
-  }
-
   const formSubmit: SubmitHandler<SigninProps> = (form) => {
     const { email, password } = form;
     signIn("credentials", {
       email,
       password,
+      callbackUrl:"/editor"
     });
     //console.log(email + " " + password);
   };
@@ -111,7 +112,7 @@ const Signin = () => {
           <button
             type="submit"
             className="w-[80%] btn-dark center mt-5 flex items-center justify-center gap-4"
-            /* disabled={isSubmitting} */
+            disabled={isSubmitting}
           >
             <Image src={googleIcon} alt="Google Icon" className="w-5" />
             Continue with Google
@@ -134,8 +135,8 @@ const Signin = () => {
               Join us Today
             </Link>
           </p>
-          {isSubmitting && <Loader />}
         </form>
+        {isSubmitted && <Loader />}
       </section>
     </AnimationWrapper>
   );
