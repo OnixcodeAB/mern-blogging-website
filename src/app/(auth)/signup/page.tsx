@@ -8,6 +8,7 @@ import AnimationWrapper from "@/components/animation/page-animation";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import Loader from "@/components/Loader/Loader";
 
 type SignupProps = {
   fullname: string;
@@ -124,7 +125,7 @@ const signup = () => {
 
           <button
             type="submit"
-            /* disabled={isSubmitting} */
+            disabled={isSubmitting}
             className="w-[80%] btn-dark center mt-14 mb-5"
           >
             Sign Up
@@ -160,6 +161,7 @@ const signup = () => {
             </Link>
           </p>
         </form>
+        {isSubmitting && <Loader />}
       </section>
     </AnimationWrapper>
   );
