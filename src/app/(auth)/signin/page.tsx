@@ -40,12 +40,12 @@ const Signin = () => {
     setError(params.get("error"));
   }, [params]);
 
-  const formSubmit: SubmitHandler<SigninProps> = (form) => {
+  const formSubmit: SubmitHandler<SigninProps> = (form: SigninProps) => {
     const { email, password } = form;
     signIn("credentials", {
       email,
       password,
-      callbackUrl:"/editor"
+      callbackUrl: "/editor",
     });
     //console.log(email + " " + password);
   };

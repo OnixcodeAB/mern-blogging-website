@@ -42,9 +42,9 @@ export const POST = async (request: NextRequest, res: NextResponse) => {
     return new NextResponse("User Has been created", { status: 201 });
   } catch (err: any) {
     //console.log(err);
-    return NextResponse.json(
-      { error: `${err.message}` },
-      { status: 500, statusText: `${err.code}` }
-    );
+    return new NextResponse(`${err.message}`, {
+      status: 500,
+      statusText: `${err.message}`,
+    });
   }
 };
