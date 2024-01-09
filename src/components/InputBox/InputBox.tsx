@@ -1,5 +1,9 @@
 "use client";
-import React, { useState } from "react";
+import React, {
+  DetailedHTMLFactory,
+  ObjectHTMLAttributes,
+  useState,
+} from "react";
 
 interface InputBoxProps {
   type?: string;

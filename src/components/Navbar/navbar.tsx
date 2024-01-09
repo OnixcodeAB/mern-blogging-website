@@ -1,12 +1,22 @@
 "use client";
 import React, { useState } from "react";
 import logo from "@/image/logo.png";
-import Image from "next/image";
 import Link from "next/link";
+import { getSession, useSession } from "next-auth/react";
+import Image from "next/image";
+import UserNavigationPanel from "../UserNavigationPanel/UserNavigationPanel";
 
 const Navbar = () => {
   const [searchBoxVisibility, setSearchBoxVisibility] =
     useState<Boolean>(false);
+
+  const session = useSession();
+  const { data } = useSession();
+
+  const email = data?.user?.email;
+  const profilePic = data?.user?.image || "";
+
+  //console.log(profilePic);
 
   return (
     <nav className="navbar">
@@ -34,16 +44,41 @@ const Navbar = () => {
         >
           <i className="fi fi-rr-search text-xl"></i>
         </button>
-        <Link href={"/editor"} className="hidden md:flex gap-2 btn-light text-xl py-2">
+        <Link
+          href={"/editor"}
+          className="hidden md:flex gap-2 btn-light text-xl py-2"
+        >
           <i className="fi fi-rr-file-edit text-xl" />
           Write
         </Link>
-        <Link href={"/signin"} className="btn-dark py-2">
-          Sign in
-        </Link>
-        <Link href={"/signup"} className="btn-light py-2 hidden md:block">
-          Sign up
-        </Link>
+        {session.status == "authenticated" ? (
+          <>
+            <Link href={"/dashboard/notification"}>
+              <button className="w-12 h-12 rounded-full bg-grey relative hover:bg-black/10">
+                <i className="fi fi-rr-bell text-2xl"></i>
+              </button>
+            </Link>
+            <div className="relative">
+              <button>
+                <img
+                  src={profilePic}
+                  alt="Profile pic"
+                  className="w-12 h-12 rounded-full mt-2"
+                />
+              </button>
+              <UserNavigationPanel />
+            </div>
+          </>
+        ) : (
+          <>
+            <Link href={"/signin"} className="btn-dark py-2">
+              Sign in
+            </Link>
+            <Link href={"/signup"} className="btn-light py-2 hidden md:block">
+              Sign up
+            </Link>
+          </>
+        )}
       </div>
     </nav>
   );

@@ -1,5 +1,5 @@
 import { NextAuthProvider } from "@/utils/provider/provider";
-import Navbar from "@/components/Navar/navbar";
+import Navbar from "@/components/Navbar/navbar";
 
 export default function AuthLayout({
   children,

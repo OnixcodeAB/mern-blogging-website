@@ -21,14 +21,14 @@ const Signin = () => {
   const router = useRouter();
   const session = useSession();
 
-  /* if (session.status === "authenticated") {
+  /*  if (session.status === "authenticated") {
     router?.push("/editor");
   } */
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitted, isSubmitting },
+    formState: { errors, isSubmitted, isSubmitting, isLoading },
   } = useForm<SigninProps>({
     defaultValues: {
       email: "",
@@ -50,7 +50,9 @@ const Signin = () => {
     //console.log(email + " " + password);
   };
 
-  return (
+  return session.status === "authenticated" ? (
+    router?.push("/editor")
+  ) : (
     <AnimationWrapper>
       <section className="h-cover flex items-center justify-center">
         <form
@@ -67,7 +69,7 @@ const Signin = () => {
                 required: "Email is required",
               }),
             }}
-            type="text"
+            type="email"
             placeholder="Email"
             icon="fi-rr-envelope"
           />
@@ -136,7 +138,7 @@ const Signin = () => {
             </Link>
           </p>
         </form>
-        {isSubmitted && <Loader />}
+        {(isSubmitted || isLoading) && <Loader />}
       </section>
     </AnimationWrapper>
   );

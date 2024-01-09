@@ -65,18 +65,22 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/signin",
     signOut: "/",
-    newUser: "/editor",
+    newUser: "/",
     error: "/signin",
   },
   callbacks: {
     // We can pass in additional information from the user document MongoDB returns
     async jwt({ token, user }: any) {
       if (user) {
+        console.log(user.personal_info.email);
         token.user = {
           _id: user._id,
-          email: user.email,
-          name: user.name,
+          email: user.personal_info.email,
+          name: user.personal_info.fullname,
+          username: user.personal_info.username,
+          image: user.personal_info.profile_img
         };
+        console.log(token)
       }
       return token;
     },

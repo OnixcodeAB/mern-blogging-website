@@ -40,7 +40,6 @@ const signup = () => {
 
   const formSubmit: SubmitHandler<SignupProps> = async (form: SignupProps) => {
     const { fullname, email, password } = form;
-    //console.log({ fullname, email, password });
     try {
       const res = await fetch("/api/auth/register", {
         method: "POST",
@@ -53,15 +52,14 @@ const signup = () => {
           password,
         }),
       });
-      res.status == 201 &&
+      console.log(await res);
+      res.status == 200 &&
         router.push("/signin?success=Account has been created");
       if (!res.ok) {
-        //console.log(res);
-
-        throw new Error(`${res.statusText}`);
+        const message = await res.text();
+        throw new Error(`${message}`);
       }
     } catch (error: any) {
-      //console.log(error.message);
       setMessage(error.message.split(" ")[0]);
     }
   };
