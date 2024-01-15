@@ -5,7 +5,7 @@ import { signOut, useSession } from "next-auth/react";
 
 const UserNavigationPanel = () => {
   const { data } = useSession();
-  const userName = data?.user?.username || "";
+  const userName = data?.user?.name || "";
   return (
     <AnimationWrapper
       className="absolute right-0 z-50"

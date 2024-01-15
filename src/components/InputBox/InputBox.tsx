@@ -4,6 +4,7 @@ import React, {
   ObjectHTMLAttributes,
   useState,
 } from "react";
+import { Input } from "../ui/input";
 
 interface InputBoxProps {
   type?: string;
@@ -11,7 +12,7 @@ interface InputBoxProps {
   id?: string;
   value?: string;
   placeholder?: string;
-  icon: string;
+  icon?: string;
 }
 
 const InputBox = ({
@@ -29,7 +30,7 @@ const InputBox = ({
   };
   return (
     <div className="relative w-[100%] mb-4">
-      <input
+      <Input
         {...Name}
         type={viewPass ? "text" : type}
         id={id}
@@ -38,7 +39,7 @@ const InputBox = ({
         className="input-box"
       />
       <i className={"fi " + icon + " input-icon"} />
-      {type === "password" ? (
+      {type === "Password" ? (
         <i
           className={
             "fi fi-rr-eye" +
