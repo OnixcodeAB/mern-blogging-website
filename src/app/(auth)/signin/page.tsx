@@ -80,9 +80,9 @@ const Signin = () => {
       });
     });
   };
-  console.log({ error: error, success: success });
+  //console.log({ error: error, success: success });
   return session.status === "authenticated" ? (
-    router?.push("/editor")
+    router?.push("")
   ) : (
     <AnimationWrapper>
       <Form {...form}>
@@ -111,7 +111,7 @@ const Signin = () => {
                       />
                     </div>
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-red text-[11.5px] font-semibold mb-4" />
                 </FormItem>
               )}
             />
@@ -129,13 +129,18 @@ const Signin = () => {
                       icon="fi-rr-key"
                     />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-red text-[11.5px] font-semibold" />
                 </FormItem>
               )}
             />
+            {error && (
+              <small className="block my-4 text-red text-xl text-center font-semibold">
+                Error: {error}
+              </small>
+            )}
             <button
               type="submit"
-              className="w-[80%] btn-dark center mt-14 mb-5"
+              className="w-[80%] btn-dark center mt-10 mb-5"
               disabled={isPending}
             >
               Sign In

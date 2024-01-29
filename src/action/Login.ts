@@ -3,9 +3,9 @@
 import { getUserByEmail } from "@/utils/data/getUser";
 import dbConnect from "@/utils/mongodb/db";
 import { LoginSchema } from "@/utils/schema";
-import { error } from "console";
 import { signIn } from "@/utils/auth/auth";
 import { z } from "zod";
+import { AuthError } from "next-auth";
 
 export const login = async (
   values: z.infer<typeof LoginSchema>,
@@ -27,15 +27,23 @@ export const login = async (
   } */
 
   try {
-    //await dbConnect();
     await signIn("credentials", {
       email,
       Password,
-      redirectTo: "/editor"  // Create a file with route
+      redirectTo: "/editor",
     });
-    return { success: "Confirmation email sent!" };
+    return { success: "Login Succesfully 🟢" };
   } catch (error) {
-    console.log(error);
+    if (error instanceof AuthError) {
+      console.log(error.message);
+      switch (error.type) {
+        case "CredentialsSignin":
+          return { error: "Invalid credentials!" };
+        default:
+          return { error: "Something went wrong!" };
+      }
+    }
+
     throw error;
   }
 };

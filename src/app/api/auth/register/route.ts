@@ -44,8 +44,6 @@ export const POST = async (request: NextRequest) => {
   try {
     const response = await newUser.save();
 
-    //console.log(response);
-
     return new NextResponse(JSON.stringify({ user: response, status: 200 }));
 
     //return new NextResponse("User Has been created", { status: 200 });

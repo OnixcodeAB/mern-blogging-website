@@ -33,12 +33,12 @@ export default {
           const { email, Password } = validatedFields.data;
 
           const user = await getUserByEmail(email);
-          //console.log(user.personal_info.password)
-          if (!user || !user.personal_info?.password) {
-            return null;
-          }
-          console.log(user);
-          const passwordsMatch = await bcrypt.compare(Password, user.personal_info.password);
+          if (!user) return null
+
+          const passwordsMatch = await bcrypt.compare(
+            Password,
+            user.personal_info.password
+          );
 
           if (passwordsMatch) return user;
         }
