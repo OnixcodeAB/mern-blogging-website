@@ -28,6 +28,7 @@ const InputBox = ({
   const onClick = () => {
     setViewPass(!viewPass);
   };
+  
   return (
     <div className="relative w-[100%] mb-4">
       <Input
@@ -36,7 +37,7 @@ const InputBox = ({
         id={id}
         defaultValue={value}
         placeholder={placeholder}
-        className="input-box"
+        className="input-box appearance-none"
       />
       <i className={"fi " + icon + " input-icon"} />
       {type === "Password" ? (

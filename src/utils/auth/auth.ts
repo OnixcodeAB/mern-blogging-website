@@ -27,7 +27,7 @@ export const {
       /* if (account?.provider !== "credentials") {
         return true;
       } */
-      console.log(user);
+      //console.log(user);
       const existingUser = await getUserById(user.id);
 
       // Prevent sign in without email verification

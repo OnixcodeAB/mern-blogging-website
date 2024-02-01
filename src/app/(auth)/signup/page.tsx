@@ -116,8 +116,8 @@ const signup = () => {
                 minLength: 6,
               }),
             }}
-            type="Password"
-            placeholder="Password"
+            type="password"
+            placeholder="password"
             icon="fi-rr-key"
           />
 
