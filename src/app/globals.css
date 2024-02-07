@@ -18,6 +18,25 @@ input::-ms-clear {
   height: 80px;
 }
 
+.skeleton {
+  animation: skeleton-loading 1s linear infinite alternate;
+}
+
+.skeleton-btn {
+  border: 1px;
+  border-radius: 50px;
+  padding: 1.5rem 3.5rem 1.5rem 3.5rem;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-color: hsl(200, 20%, 70%);
+  }
+  100% {
+    background-color: hsl(200, 20%, 95%);
+  }
+}
+
 @layer components {
   * {
     @apply m-0 p-0 box-border text-base outline-purple/30 duration-100;

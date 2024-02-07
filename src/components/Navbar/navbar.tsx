@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 import logo from "@/image/logo.png";
 import Link from "next/link";
 import { getSession, useSession } from "next-auth/react";
@@ -11,7 +11,7 @@ const Navbar = () => {
     useState<Boolean>(false);
 
   const session = useSession();
-  const { data } = useSession();
+  const { data, status } = useSession();
 
   const email = data?.user?.email;
   const profilePic = data?.user?.image || "";
@@ -51,37 +51,64 @@ const Navbar = () => {
           <i className="fi fi-rr-file-edit text-xl" />
           Write
         </Link>
-        {session.status == "authenticated" ? (
-          <>
-            <Link href={"/dashboard/notification"}>
-              <button className="w-12 h-12 rounded-full bg-grey relative hover:bg-black/10">
-                <i className="fi fi-rr-bell text-2xl"></i>
-              </button>
-            </Link>
-            <div className="relative">
-              <button>
-                <img
-                  src={profilePic}
-                  alt="Profile pic"
-                  className="w-12 h-12 rounded-full mt-2"
-                />
-              </button>
-              <UserNavigationPanel />
-            </div>
-          </>
-        ) : (
-          <>
-            <Link href={"/signin"} className="btn-dark py-2">
-              Sign in
-            </Link>
-            <Link href={"/signup"} className="btn-light py-2 hidden md:block">
-              Sign up
-            </Link>
-          </>
-        )}
+        <Suspense fallback={<NavLoader />}>
+          {status == "authenticated" ? (
+            <>
+              <Link href={"/dashboard/notification"}>
+                <button className="w-12 h-12 rounded-full bg-grey relative hover:bg-black/10">
+                  <i className="fi fi-rr-bell text-2xl"></i>
+                </button>
+              </Link>
+              <div className="relative">
+                <button>
+                  <img
+                    src={profilePic}
+                    alt="Profile pic"
+                    className="w-12 h-12 rounded-full mt-2"
+                  />
+                </button>
+                <UserNavigationPanel />
+              </div>
+            </>
+          ) : (
+            <>
+              {status == "loading" ? (
+                <NavLoader />
+              ) : (
+                <>
+                  <Link href={"/signin"} className="btn-dark py-2">
+                    Sign in
+                  </Link>
+                  <Link
+                    href={"/signup"}
+                    className="btn-light py-2 hidden md:block"
+                  >
+                    Sign up
+                  </Link>
+                </>
+              )}
+            </>
+          )}
+        </Suspense>
       </div>
     </nav>
   );
 };
+
+/* Navbar skeleton loading */
+
+const NavLoader = () => (
+  <>
+    <Link href={"/signin"} className="skeleton-btn skeleton py-2">
+      
+    </Link>
+    <Link
+      href={"/signup"}
+      className="skeleton-btn skeleton py-2 hidden md:block"
+    >
+      
+    </Link>
+  </>
+);
 
 export default Navbar;
